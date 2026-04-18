@@ -2,7 +2,7 @@
 
 PermAware is a context-aware system designed to analyze Android application permissions and determine whether they are **Justified** or **Unjustified** based on the application's category. For example, a Social Media application requesting Camera permission is labeled as **"Justified"**, whereas a Gaming app requesting the same permission may be flagged as **"Unjustified"**.
 
-Unlike traditional approaches that rely on fixed static rules or simple malware detection, PermAware leverages a fine-tuned **BERT (Bidirectional Encoder Representations from Transformers)** model to understand the deep semantic relationship between permission requests and app categories, enabling a more intelligent and privacy-focused analysis.
+Unlike traditional approaches that rely on fixed static rules or simple malware detection, PermAware leverages a fine-tuned **BERT (Bidirectional Encoder Representations from Transformers)** model to understand the deep semantic relationship between permission requests and app categories.
 
 ---
 
@@ -11,21 +11,30 @@ Unlike traditional approaches that rely on fixed static rules or simple malware 
 * **F1-Score:** 0.88, demonstrating robust performance on imbalanced datasets.
 * **Explainability:** Token-level attention heatmaps are used to visualize the contextual relationships between specific permissions and app categories.
 
-## 🛠️ System Pipeline
-The framework operates through a structured four-stage modular pipeline:
+## 🛠️ System Walkthrough
 
-1. **Input:** Accepts manual permission-category pairs or automated metadata scraping using an Application ID.
-2. **Scraper & Normalizer:** Uses **BeautifulSoup** for scraping publicly available Play Store metadata.
-   * Normalizes heterogeneous or noisy permission text into canonical labels (e.g., mapping various audio-related strings to `RECORD_AUDIO`).
-3. **BERT Classifier:** * Performs binary classification (Justified / Unjustified) using structured natural-language prompts for contextual understanding.
-   * Utilizes the `bert-base-uncased` architecture.
-4. **Interface:** Provides real-time predictions via a lightweight **Streamlit** web application.
+The PermAware framework operates through a structured four-stage modular pipeline, accessible via a **Streamlit** interface.
+
+### 1. Input Generation
+The system supports an automated mode where users enter an **Application ID** (e.g., `com.facebook.katana`) to scrape permissions from the Google Play Store, or a manual mode for custom evaluation.
+
+![Input Panel](./images/input_panel.png)
+
+### 2. Scraping & Normalization
+Permissions are extracted using **BeautifulSoup** and passed through a normalization module to map noisy or varied text (e.g., "access microphone") to canonical labels like `RECORD_AUDIO`.
+
+![Scraped Permissions](./images/scraped_permissions.png)
+
+### 3. BERT Classification
+The normalized inputs are processed by the fine-tuned **BERT model**, which performs binary inference to determine justification. Results are presented in a tabular format with **predicted labels** and **confidence scores**.
+
+![Classification Results](./images/classification_results.png)
 
 ## 📂 Dataset Details
-* **Source:** Custom rule-based synthetic dataset (developed due to the lack of suitable public datasets).
-* **Size:** 980 permission–category pairs.
-  * 308 Justified.
-  * 672 Unjustified.
+* **Source:** Custom rule-based synthetic dataset developed for context-aware classification.
+* **Size:** 980 total permission–category pairs.
+  * **308 Justified** samples.
+  * **672 Unjustified** samples.
 * **Scope:** Covers 10 well-known application categories and 14 canonical permission types.
 
 ## 🚀 How to Run (Google Colab)
@@ -38,8 +47,7 @@ Execute all cells from top to bottom:
 * **Launch:** Deploy the Streamlit interface.
 
 ### 2. Ngrok Authentication
-To access the web interface:
-* Enter your **Ngrok Auth Token** in 3rd cell by replacing "Add your ngrok authentication token here".
+To access the web interface, enter your **Ngrok Auth Token** in the 3rd cell by replacing the placeholder text `"Add your ngrok authentication token here"`.
 
 ### 3. Research vs. Implementation
 * **Implementation Cells:** Required to launch and run the application.
