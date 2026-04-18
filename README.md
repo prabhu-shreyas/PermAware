@@ -43,6 +43,7 @@ This project is optimized for **Google Colab** using an **NVIDIA T4 GPU**.
 ### 1. Run Cells Sequentially
 Execute all cells from top to bottom:
 * **Install dependencies:** `transformers`, `streamlit`, `pyngrok`.
+* **Upload the Dataset:** Uplaod the `final_synthetic_dataset.csv'` Dataset in colab when prompted to.
 * **Load Model:** Initialize the fine-tuned BERT model.
 * **Launch:** Deploy the Streamlit interface.
 
